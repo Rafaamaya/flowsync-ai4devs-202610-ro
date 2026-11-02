@@ -16,7 +16,7 @@ El sistema SHALL permitir crear una cuenta mediante `POST /api/v1/auth/signup` c
 #### Scenario: Registro correcto con nombre nulo
 
 - **WHEN** se envía un registro válido con el nombre completo a nulo
-- **THEN** la API responde 200, el nombre completo del usuario queda nulo y sus iniciales se derivan del email
+- **THEN** la API responde 200, el nombre completo del usuario queda nulo y sus iniciales se forman con la primera letra del email y la primera letra de su dominio
 
 #### Scenario: Nombre completo ausente
 
@@ -129,6 +129,16 @@ La aplicación web SHALL ofrecer en `/login` un formulario de email y contraseñ
 - **WHEN** el servidor rechaza las credenciales
 - **THEN** la pantalla muestra el aviso «El email o la contraseña no son correctos.»
 
+#### Scenario: Campos vacíos en la pantalla
+
+- **WHEN** una persona envía el formulario con el email vacío
+- **THEN** la pantalla muestra bajo el email «Falta rellenar el email.»
+
+#### Scenario: Error del servidor en la pantalla
+
+- **WHEN** el servidor responde con un error interno al enviar el formulario
+- **THEN** la pantalla muestra el aviso «Algo ha ido mal en el servidor. Inténtalo de nuevo en un momento.»
+
 #### Scenario: Servidor inaccesible
 
 - **WHEN** el formulario se envía y no se puede conectar con el servidor
@@ -141,7 +151,7 @@ La aplicación web SHALL ofrecer en `/login` un formulario de email y contraseñ
 
 ### Requirement: Continuidad de la sesión en el navegador
 
-La aplicación web SHALL conservar la sesión entre recargas y, al arrancar con una sesión guardada, SHALL comprobarla contra el servidor antes de darla por válida. La aplicación no SHALL imponer una caducidad propia a la sesión.
+La aplicación web SHALL conservar la sesión entre recargas y, al arrancar con una sesión guardada, SHALL comprobarla contra el servidor antes de darla por válida. La aplicación SHALL NOT imponer una caducidad propia a la sesión.
 
 #### Scenario: Recarga con sesión válida
 
@@ -150,17 +160,17 @@ La aplicación web SHALL conservar la sesión entre recargas y, al arrancar con 
 
 #### Scenario: Sesión rechazada por el servidor
 
-- **WHEN** se carga la aplicación y el servidor responde 401 a la sesión guardada
+- **WHEN** se abre `/login` con una sesión guardada y el servidor responde 401 a esa sesión
 - **THEN** la sesión guardada se elimina y `/login` muestra «Tu sesión ha caducado. Vuelve a iniciar sesión.»
 
 #### Scenario: Servidor no disponible al restaurar
 
-- **WHEN** se carga la aplicación y la sesión guardada no se puede comprobar por un fallo de conexión o del servidor
+- **WHEN** se abre `/login` y la sesión guardada no se puede comprobar por un fallo de conexión o del servidor
 - **THEN** `/login` muestra el motivo del fallo y la sesión guardada se conserva para volver a comprobarla en la siguiente carga
 
 #### Scenario: Comprobación en curso
 
-- **WHEN** se abre una ruta de la aplicación mientras se comprueba la sesión guardada
+- **WHEN** se abre `/profile`, `/login` o `/register` mientras se comprueba la sesión guardada
 - **THEN** se muestra un indicador de carga a pantalla completa sin redirigir
 
 ### Requirement: Cierre de sesión
@@ -198,7 +208,7 @@ La aplicación web SHALL ofrecer en la pantalla de perfil un botón «Cerrar ses
 
 ### Requirement: Consulta del perfil
 
-El sistema SHALL devolver, mediante `GET /api/v1/account/profile` y dentro de `data`, los datos públicos del usuario autenticado: identificador, nombre completo, email, iniciales y fechas de creación y actualización. La respuesta no SHALL incluir la contraseña.
+El sistema SHALL devolver, mediante `GET /api/v1/account/profile` y dentro de `data`, los datos públicos del usuario autenticado: identificador, nombre completo, email, iniciales y fechas de creación y actualización. La respuesta SHALL NOT incluir la contraseña.
 
 #### Scenario: Perfil con credencial válida
 
