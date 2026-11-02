@@ -22,14 +22,37 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5 1M xHigh
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
+Necesito escribir una especificación viva del vertical de cuentas y acceso que ya existe en este proyecto.
 
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Explora el código del backend y del frontend antes de escribir. Cubre únicamente:
+- registro de usuario;
+- inicio de sesión;
+- sesión y cierre de sesión;
+- consulta del perfil;
+- protección de rutas;
+- pantallas de acceso relacionadas.
+
+No implementes cambios de código ni corrijas posibles problemas. Solo crea el archivo docs/spec-viva/rm.md.
+
+El archivo debe estar en castellano y cumplir exactamente este formato:
+- una sección ## Purpose de una o dos frases;
+- una sección ## Requirements;
+- varios apartados ### Requirement:;
+- cada requisito debe describir comportamiento observable y usar SHALL;
+- cada requisito debe tener al menos un #### Scenario:;
+- cada escenario debe contener exactamente o como mínimo estas viñetas:
+  - **WHEN**
+  - **THEN**
+
+No uses secciones ADDED, MODIFIED ni REMOVED.
+No menciones nombres de clases, nombres de archivos ni detalles internos de implementación.
+No documentes tareas, backlog ni funcionalidades fuera de cuentas y acceso.
+
+Después de crear el archivo, indícame cuántos requisitos escribiste y qué partes del código consultaste.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** Funcionó a la primera. El agente escribió 12 requisitos y 43 escenarios, pero después realizó acciones de entrega que todavía estaban pendientes.

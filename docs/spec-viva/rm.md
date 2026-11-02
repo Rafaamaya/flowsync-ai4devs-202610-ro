@@ -266,3 +266,22 @@ La aplicación web SHALL restringir `/profile` a personas autenticadas y `/login
 
 - **WHEN** una persona autenticada abre una ruta no definida
 - **THEN** la aplicación la lleva a `/profile`
+
+## Parte B: comprobación
+
+### 1. Requisitos escritos y comprobados
+
+- Requisitos escritos por el agente: 12
+- Requisitos comprobados por mí: 12
+- Escenarios revisados: 43
+
+### 2. Incoherencias encontradas
+
+- Cuando el servidor no está disponible al restaurar una sesión, el token se conserva en `localStorage`, pero la aplicación pasa temporalmente a estado anónimo y muestra el login. La spec debe distinguir entre conservar el token y mantener la sesión activa.
+- La pantalla de cierre de sesión deshabilita el botón y muestra «Cerrando sesión…», pero ese comportamiento no está descrito en la spec.
+
+### 3. Comportamientos que no sé si son bug o contrato
+
+- Los emails que solo cambian en mayúsculas y minúsculas pueden representar cuentas distintas por decisión del contrato, o puede tratarse de un bug si el producto considera que los emails no distinguen mayúsculas.
+- Las sesiones sin caducidad configurada pueden ser el contrato actual de sesiones persistentes, o un riesgo de seguridad que debería corregirse.
+- Si el servidor no responde al restaurar la sesión, el token se conserva, pero la persona queda fuera de las rutas protegidas hasta recargar. Puede ser una decisión correcta para no bloquear la aplicación, o una experiencia de sesión inconsistente.
